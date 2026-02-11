@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Comic Neue", cursive;
 }
 
 /* Floating button */
@@ -22,7 +22,7 @@ body {
   right: 20px;
   width: 320px;
   height: 420px;
-  background: white;
+  background: linear-gradient(to right, #9ce8ac, #d9fbd9 );
   border-radius: 20px; /*adjust the roundness of the box*/
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   display: flex;
@@ -36,7 +36,7 @@ body {
 
 /* Header */
 #chat-header {
-  background: #2e7d32;
+  background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);
   color: white;
   padding: 10px;
   font-weight: bold;
@@ -44,10 +44,22 @@ body {
   justify-content: space-between;
 }
 
+#close-chat {
+  cursor: pointer;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+#close-chat:hover {
+    filter: drop-shadow(0 0 5px rgba(236, 146, 9, 0.836));
+    transform: scale(1.05);
+    transition: 0.3s ease;
+}
+
 /* Messages */
 #chat-messages {
   flex: 1;
-  padding: 15px;
+  padding: px;
   overflow-y: auto;
   font-size: 14px;
 }
@@ -56,7 +68,7 @@ body {
 #chat-input-area {
   display: flex;
   padding: 12px;
-  background: #f8f8f8;
+  background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);
   border-top: 1px solid #eee;
 }
 

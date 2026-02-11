@@ -51,3 +51,13 @@ function fakeBotReply(input) {
 
   return "Ask me about vegetables, availability, or market hours!";
 }
+
+// Open Chat
+chatButton.addEventListener("click", () => {
+  chatWidget.classList.remove("hidden");
+});
+
+// Close Chat
+closeChat.addEventListener("click", () => {
+  chatWidget.classList.add("hidden");
+});
