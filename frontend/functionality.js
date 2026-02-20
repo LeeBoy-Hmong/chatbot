@@ -1,63 +1,66 @@
-const chatButton = document.getElementById("chat-button");
-const chatWidget = document.getElementById("chat-widget");
-const closeChat = document.getElementById("close-chat");
-const sendBtn = document.getElementById("send-btn");
-const chatInput = document.getElementById("chat-input");
-const chatMessages = document.getElementById("chat-messages");
+document.addEventListener("DOMContentLoaded", function() {
+  const chatButton = document.getElementById("chat-button");
+  const chatWidget = document.getElementById("chat-widget");
+  const closeChat = document.getElementById("close-chat");
+  const sendBtn = document.getElementById("send-btn");
+  const chatInput = document.getElementById("chat-input");
+  const chatMessages = document.getElementById("chat-messages");
 
-// Toggle chat
-chatButton.onclick = () => chatWidget.classList.toggle("hidden");
-closeChat.onclick = () => chatWidget.classList.add("hidden");
+  // Toggle chat from launcher icon
+  chatButton.addEventListener("click", () => {
+    chatWidget.classList.toggle("hidden");
+  });
 
-// Send message
-sendBtn.onclick = sendMessage;
-chatInput.addEventListener("keypress", e => {
-  if (e.key === "Enter") sendMessage();
-});
+  // Close chat from X button
+  closeChat.addEventListener("click", (e) => {
+   e.stopPropagation();
+   chatWidget.classList.add("hidden");
+ });
 
-function sendMessage() {
-  const userText = chatInput.value.trim();
-  if (!userText) return;
+  // closeChat.addEventListener("click", (e) => {
+  //   console.log("X clicked");
+  //   chatWidget.classList.add("hidden");
+  // });
 
-  addMessage("You", userText);
-  chatInput.value = "";
+  // Send message
+  sendBtn.onclick = sendMessage;
+  chatInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
 
-  setTimeout(() => {
-    const botReply = fakeBotReply(userText);
-    addMessage("GolieXee 🌱", botReply);
-  }, 600);
-}
+  function sendMessage() {
+    const userText = chatInput.value.trim();
+    if (!userText) return;
 
-function addMessage(sender, text) {
-  const msg = document.createElement("div");
-  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  chatMessages.appendChild(msg);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
+    addMessage("You", userText);
+    chatInput.value = "";
 
-// Fake logic (placeholder for AI later)
-function fakeBotReply(input) {
-  input = input.toLowerCase();
-
-  if (input.includes("tomato")) {
-    return "Tomatoes love full sun and well-drained soil 🍅";
-  }
-  if (input.includes("hours")) {
-    return "We’re open weekends at the flea market — come say hi!";
-  }
-  if (input.includes("organic")) {
-    return "Yes! We grow using organic practices 🌿";
+    setTimeout(() => {
+      const botReply = fakeBotReply(userText);
+      addMessage("GolieXee 🌱", botReply);
+    }, 600);
   }
 
-  return "Ask me about vegetables, availability, or market hours!";
-}
+  function addMessage(sender, text) {
+    const msg = document.createElement("div");
+    msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
 
-// Open Chat
-chatButton.addEventListener("click", () => {
-  chatWidget.classList.remove("hidden");
-});
+  function fakeBotReply(input) {
+    input = input.toLowerCase();
 
-// Close Chat
-closeChat.addEventListener("click", () => {
-  chatWidget.classList.add("hidden");
+    if (input.includes("tomato")) {
+      return "Tomatoes love full sun and well-drained soil 🍅";
+    }
+    if (input.includes("hours")) {
+      return "We’re open weekends at the flea market — come say hi!";
+    }
+    if (input.includes("organic")) {
+      return "Yes! We grow using organic practices 🌿";
+    }
+
+    return "Ask me about vegetables, availability, or market hours!";
+  }
 });
