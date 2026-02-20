@@ -4,22 +4,31 @@ body {
 
 /* Floating button */
 #chat-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #2e7d32;
-  color: white;
-  padding: 14px;
+  position: fixed;      /* THIS keeps it floating */
+  bottom: 20px;         /* distance from bottom */
+  right: 50px;          /* distance from right */
+  width: 85px;          /* adjust size here */
+  height: 85px;         /* adjust size here */
   border-radius: 50%;
   cursor: pointer;
-  font-size: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+
+#chat-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 /* Chat window */
 #chat-widget {
   position: fixed;
+  margin-bottom: 35px;
   bottom: 80px;
-  right: 20px;
+  right: 50px;
   width: 320px;
   height: 420px;
   background: linear-gradient(to right, #9ce8ac, #d9fbd9 );
