@@ -23,7 +23,8 @@ body {
   border-radius: 50%;
 }
 
-#chat-button:hover {
+#chat-button
+:hover {
   filter: drop-shadow(0 0 5px rgba(236, 146, 9, 0.836));
   transform: scale(1.05);
   transition: 0.3s ease;

@@ -3,10 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origin = [
+origins = [
     "https://goliexeegardens.com",
     "https://www.goliexeegardens.com",
 ]
+
+app.middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 
 @app.get("/")
 async def root():
