@@ -1,6 +1,12 @@
 from fastapi import FastAPI, HTTPException,status
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origin = [
+    "https://goliexeegardens.com",
+    "https://www.goliexeegardens.com",
+]
 
 @app.get("/")
 async def root():
