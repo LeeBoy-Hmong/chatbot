@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException,status
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -8,12 +9,28 @@ origins = [
     "https://www.goliexeegardens.com",
 ]
 
-app.middleware(
+app.add_middleware(
     CORSMiddleware,
-    allow_origins = origins,
+    allow_origins = ["*"],
     allow_methods = ["*"],
     allow_headers = ["*"]
 )
+
+# Use Pydantic BaseModel to set standard for a response - create a class.
+class DefaultResponse(BaseModel):
+    response: str
+
+def basic_reply(user_quesion: str) -> str:
+    message = user_quesion.lower().strip()
+
+    if "where" in message or "location" in message or "located" in message or "booth" in message:
+        return "We are located by the DragonStar in Brooklyn Park, MN - Booth 16"
+    
+    if "time" in message or "times" in message or "hours" in message:
+        return "We are open 9am - 4pm, from Monday - Friday, starting June 12th."
+
+    return "Sorry, I do not have the answer for that yet, I'm still learning. Please email one our members for further information."
+
 
 @app.get("/")
 async def root():
