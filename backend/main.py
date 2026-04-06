@@ -20,6 +20,9 @@ app.add_middleware(
 class DefaultResponse(BaseModel):
     response: str
 
+class DefaultRequest(BaseModel):
+    message: str
+
 def basic_reply(user_quesion: str) -> str:
     message = user_quesion.lower().strip()
 
@@ -36,12 +39,17 @@ def basic_reply(user_quesion: str) -> str:
 async def root():
     return {"This endpoint for the chatbot is a working API - Please refer to '/chatbot/'"}
 
-@app.get("/chatbot/")
-async def get_chatbot():
-    '''
-        Retrieve the chatbot for my GolieXeeGarden Site.
-    '''
-    raise HTTPException(
-        status_code= status.HTTP_200_OK,
-        detail= "This is a working API endpoint, but the endpoint is functional."
-    )
+# @app.get("/chat/")
+# async def get_chatbot():
+#     '''
+#         Retrieve the chatbot for my GolieXeeGarden Site.
+#     '''
+#     raise HTTPException(
+#         status_code= status.HTTP_200_OK,
+#         detail= "This is a working API endpoint, but the endpoint is functional."
+#     )
+
+@app.post("/chatbot/", response_model=DefaultResponse)  # Use response_model not response_class. You will run into open_ai json error if choose latter.
+async def chatbot(request: DefaultRequest):
+    reply = basic_reply(request.message)
+    return DefaultResponse(response=reply)
