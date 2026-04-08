@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException,status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from chat_logic import reply
 
 app = FastAPI()
 
@@ -19,33 +20,9 @@ app.add_middleware(
 # Use Pydantic BaseModel to set standard for a response - create a class.
 class DefaultResponse(BaseModel):
     response: str
-    intent: str
-    sucess: bool
 
 class DefaultRequest(BaseModel):
     message: str
-
-def reply(user_quesion: str) -> str:
-
-    intent_map = {
-        "location" : {
-            "keywords": ["location", "where", "find you", "address", "address"],
-            "response": "We are located at DragonStar Mark parking lot - Booth 16."
-        },
-        "hours" : {
-            "keywords" : ["business hours", "hours", "location hours", "closing time", "opening time", "times", "time"],
-            "response" : "We are open 9am - 4pm, from Monday - Friday, starting June 12th."
-        }
-    }
-
-    message = user_quesion.lower()
-
-    for intent_names, intent_data in intent_map.items():  # loops through my dictionary list "intent_names = location / hours" & "intent_data = keywords / response".
-        if any(keyword in message for keyword in intent_data["keywords"]):
-            return intent_data["response"]
-        
-    return "Sorry, I do not have the answer for that yet, I'm still learning. Please email one our members for further information."
-
 
 ''' # if "where" in message or "location" in message or "located" in message or "booth" in message:
     #     return "We are located by the DragonStar in Brooklyn Park, MN - Booth 16"
@@ -70,7 +47,11 @@ async def root():
 #         detail= "This is a working API endpoint, but the endpoint is functional."
 #     )
 
+
 @app.post("/chatbot/", response_model=DefaultResponse)  # Use response_model not response_class. You will run into open_ai json error if choose latter.
 async def chatbot(request: DefaultRequest):
-    reply = basic_reply(request.message)
-    return DefaultResponse(response=reply)
+    chatreply = reply(request.message)
+    return DefaultResponse(response=chatreply)
+
+if __name__ == "__main__":
+    reply()
