@@ -28,18 +28,26 @@ document.addEventListener("DOMContentLoaded", function() {
     if (e.key === "Enter") sendMessage();
   });
 
-  function sendMessage() {
+  async function sendMessage() {
     const userText = chatInput.value.trim();
     if (!userText) return;
 
     addMessage("You", userText);
     chatInput.value = "";
 
-    setTimeout(() => {
-      const botReply = fakeBotReply(userText);
-      addMessage("GolieXee 🌱", botReply);
-    }, 600);
-  }
+    const response = await fetch("http://127.0.0.1:8000/chatbot/", {  // fetches the FastAPI - needs to be running to work.
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message: userText})
+  })
+
+  const data = await response.json();
+//  console.log(data)  // Allows the for the log to be relayed to the site. 
+  
+//   setTimeout(() => {  // Replaced with the asynchronous nature of sendMessage() function...
+  const botReply = data.response;  // dot annotate the fetch
+  addMessage("GolieXee 🌱", botReply);
+    }
 
   function addMessage(sender, text) {
     const msg = document.createElement("div");
@@ -48,19 +56,20 @@ document.addEventListener("DOMContentLoaded", function() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  function fakeBotReply(input) {
-    input = input.toLowerCase();
 
-    if (input.includes("tomato")) {
-      return "Tomatoes love full sun and well-drained soil 🍅";
-    }
-    if (input.includes("hours")) {
-      return "We’re open weekends at the flea market — come say hi!";
-    }
-    if (input.includes("organic")) {
-      return "Yes! We grow using organic practices 🌿";
-    }
+  // function fakeBotReply(input) {
+  //   input = input.toLowerCase();
 
-    return "Ask me about vegetables, availability, or market hours!";
-  }
+  //   if (input.includes("tomato")) {
+  //     return "Tomatoes love full sun and well-drained soil 🍅";
+  //   }
+  //   if (input.includes("hours")) {
+  //     return "We’re open weekends at the flea market — come say hi!";
+  //   }
+  //   if (input.includes("organic")) {
+  //     return "Yes! We grow using organic practices 🌿";
+  //   }
+
+  //   return "Ask me about vegetables, availability, or market hours!";
+  // }
 });
