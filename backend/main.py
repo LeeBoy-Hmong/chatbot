@@ -19,20 +19,41 @@ app.add_middleware(
 # Use Pydantic BaseModel to set standard for a response - create a class.
 class DefaultResponse(BaseModel):
     response: str
+    intent: str
+    sucess: bool
 
 class DefaultRequest(BaseModel):
     message: str
 
-def basic_reply(user_quesion: str) -> str:
-    message = user_quesion.lower().strip()
+def reply(user_quesion: str) -> str:
 
-    if "where" in message or "location" in message or "located" in message or "booth" in message:
-        return "We are located by the DragonStar in Brooklyn Park, MN - Booth 16"
-    
-    if "time" in message or "times" in message or "hours" in message:
-        return "We are open 9am - 4pm, from Monday - Friday, starting June 12th."
+    intent_map = {
+        "location" : {
+            "keywords": ["location", "where", "find you", "address", "address"],
+            "response": "We are located at DragonStar Mark parking lot - Booth 16."
+        },
+        "hours" : {
+            "keywords" : ["business hours", "hours", "location hours", "closing time", "opening time", "times", "time"],
+            "response" : "We are open 9am - 4pm, from Monday - Friday, starting June 12th."
+        }
+    }
 
+    message = user_quesion.lower()
+
+    for intent_names, intent_data in intent_map.items():  # loops through my dictionary list "intent_names = location / hours" & "intent_data = keywords / response".
+        if any(keyword in message for keyword in intent_data["keywords"]):
+            return intent_data["response"]
+        
     return "Sorry, I do not have the answer for that yet, I'm still learning. Please email one our members for further information."
+
+
+''' # if "where" in message or "location" in message or "located" in message or "booth" in message:
+    #     return "We are located by the DragonStar in Brooklyn Park, MN - Booth 16"
+    
+    # if "time" in message or "times" in message or "hours" in message:
+    #     return "We are open 9am - 4pm, from Monday - Friday, starting June 12th."
+'''
+    # return "Sorry, I do not have the answer for that yet, I'm still learning. Please email one our members for further information."
 
 
 @app.get("/")
