@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", function() {
     addMessage("You", userText);
     chatInput.value = "";
 
+    const typingMessage = addMessage("AskLee", "Typing...");
+
     const response = await fetch("http://127.0.0.1:8000/chatbot/", {  // fetches the FastAPI - needs to be running to work.
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -44,32 +46,18 @@ document.addEventListener("DOMContentLoaded", function() {
   const data = await response.json();
 //  console.log(data)  // Allows the for the log to be relayed to the site. 
   
-//   setTimeout(() => {  // Replaced with the asynchronous nature of sendMessage() function...
+ // setTimeout(() => {  // Replaced with the asynchronous nature of sendMessage() function...
   const botReply = data.response;  // dot annotate the fetch
-  addMessage("GolieXee 🌱", botReply);
-    }
+  addMessage("AskLee AI 🌱", botReply);
+   }
 
   function addMessage(sender, text) {
     const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.textContent = text;
     msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
     chatMessages.appendChild(msg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    return msg;
   }
-
-
-  // function fakeBotReply(input) {
-  //   input = input.toLowerCase();
-
-  //   if (input.includes("tomato")) {
-  //     return "Tomatoes love full sun and well-drained soil 🍅";
-  //   }
-  //   if (input.includes("hours")) {
-  //     return "We’re open weekends at the flea market — come say hi!";
-  //   }
-  //   if (input.includes("organic")) {
-  //     return "Yes! We grow using organic practices 🌿";
-  //   }
-
-  //   return "Ask me about vegetables, availability, or market hours!";
-  // }
 });
