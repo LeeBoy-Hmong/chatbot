@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException,status
+from fastapi import FastAPI, HTTPException, status, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from chat_logic import reply
@@ -37,16 +37,31 @@ class DefaultRequest(BaseModel):
 async def root():
     return {"This endpoint for the chatbot is a working API - Please refer to '/chatbot/'"}
 
+
+@app.get("/health")
+async def health():
+    is_healthy = True
+
+    if is_healthy:
+        return {"Status": "Up"}
+    else:
+        return Response(
+            content= {"Status": "DOWN"},
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            media_type="application/json"
+        )
+
+'''  Simple chat - currently replaced by /chatbot/
 # @app.get("/chat/")
 # async def get_chatbot():
-#     '''
+#     
 #         Retrieve the chatbot for my GolieXeeGarden Site.
-#     '''
+#     
 #     raise HTTPException(
 #         status_code= status.HTTP_200_OK,
 #         detail= "This is a working API endpoint, but the endpoint is functional."
 #     )
-
+'''
 
 @app.post("/chatbot/", response_model=DefaultResponse)  # Use response_model not response_class. You will run into open_ai json error if choose latter.
 async def chatbot(request: DefaultRequest):
