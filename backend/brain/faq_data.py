@@ -12,6 +12,7 @@ intent_map = {
     },
     "prices" : {
         "keywords" : ["prices", "price", "cost", "costs", "expensive", "cheap"],
+        "response" : "None",
         "use_ai" : True
     },
     "payment" : {
@@ -19,12 +20,14 @@ intent_map = {
         "response" : "We accept USD ($) as well as credit and debit cards. Please note that all payments are processed in person at the time of purchase upon arrival at the shop.",
         "use_ai": False
     },
-    # "vegetables_sold" : {
-    #     "keywords" :
-    #     "response" :
-    #     "use_ai" : True 
-    # },
-    # "contact": {
-    #     "keywords":
-    # }
+    "vegetables" : {
+        "keywords" : ["vegetable", "vegetables", "produce", "products"],
+        "response" : "None",
+        "use_ai" : True
+    },
+    "contact": {
+        "keywords" : ["contact", "email", "e-mail", "gmail", "get in touch", "get ahold of ", "get a hold of", "Reach"],
+        "response" : "If you would like to contact us, or have a special inquiry, you may reach us at info@goliexeegardens.com.\n""We'll have someone get in touch with you as soon as we can.",
+        "use_ai" : False
+    }
 }
