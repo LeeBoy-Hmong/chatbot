@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       const elapsed = Date.now() - startTime;
-      const minDelay = 1500;
+      const minDelay = 1600;
       const remaining = Math.max(0, minDelay - elapsed);
 
       setTimeout(async () => {
