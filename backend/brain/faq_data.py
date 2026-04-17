@@ -27,7 +27,7 @@ intent_map = {
     },
     "contact": {
         "keywords" : ["contact", "email", "e-mail", "gmail", "get in touch", "get ahold of ", "get a hold of", "Reach"],
-        "response" : "If you would like to contact us, or have a special inquiry, you may reach us at info@goliexeegardens.com.\n""We'll have someone get in touch with you as soon as we can.",
+        "response" : "If you would like to contact us, or have a special inquiry, you may reach us at <a href='mailto:info@goliexeegardens.com'><strong>info@goliexeegardens.com</strong></a>.\nWe'll have someone get in touch with you as soon as we can.",
         "use_ai" : False
     }
 }
