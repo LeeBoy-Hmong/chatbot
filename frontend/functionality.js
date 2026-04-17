@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const data = await response.json();
+      console.log(data.response);
 
       const elapsed = Date.now() - startTime;
       const minDelay = 1600;
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const textDiv = document.createElement("div");
     textDiv.className = "message-text";
-    textDiv.textContent = text;
+    textDiv.innerHTML = text;
 
     msg.appendChild(senderDiv);
     msg.appendChild(textDiv);
@@ -156,15 +157,18 @@ document.addEventListener("DOMContentLoaded", function () {
       element.appendChild(senderDiv);
       element.appendChild(textDiv);
 
+      const plainText = fullText.replace(/<[^>]*>/g, "");
       let index = 0;
 
       function typeNextChar() {
-        if (index < fullText.length) {
-          textDiv.textContent += fullText.charAt(index);
+        if (index < plainText.length) {
+          textDiv.textContent = plainText.substring(0, index + 1);
           index++;
           chatMessages.scrollTop = chatMessages.scrollHeight;
           setTimeout(typeNextChar, speed);
         } else {
+          textDiv.innerHTML = fullText;
+          chatMessages.scrollTop = chatMessages.scrollHeight;
           resolve();
         }
       }
