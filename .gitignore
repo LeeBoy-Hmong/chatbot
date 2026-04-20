@@ -1,0 +1,3 @@
+# Remove environment directory
+.env
+
