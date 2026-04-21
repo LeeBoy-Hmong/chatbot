@@ -1,4 +1,10 @@
 from faq_data import intent_map as intent_map
+import urllib.parse
+
+
+def generate_email(recipient, subject="", body=""):
+    parameters = urllib.parse.urlencode({"subject":subject, "body":body})
+    return f"mailto:{recipient}?{parameters}"
 
 def reply(user_quesion: str) -> str:
     message = user_quesion.lower()
