@@ -6,11 +6,10 @@ This is one of the projects on for my parents website. Along with augmenting the
 
 # Stack
 ## Frontend
-Utilize JavaScript to create a chat widget.
+Utilize HTML, CSS, and JavaScript to create a chat widget.
 ## Backend
-FASTAPI hosted on Render
+Python is the main programming language for the backend. FASTAPI framework is utilize for as my API. The vector database will be Qdrant for further scaling purposes if need be. Will be hosted on Render for free usage and overlapped with the website.
 ## Knowledge Storage
-SupaBase is a backend service that utilize PostGresSQL as it's database core.
-## Embeddings
-Will be run locally
-FAISS on a disk - Will store and be our Vector Database.
+SupaBase is a backend service that utilize PostGresSQL as it's database core. BetterDocs is a documentation/knowledge base solution for Hostinger, it provides a REST API that allow my connection 
+## Embeddings & Language Model
+Will be run locally on a Jetson Nano Orin (8GB RAM) on a Ollama model. Will Utilize the Open-Source Framework *Setence Transformers* for embedding.
