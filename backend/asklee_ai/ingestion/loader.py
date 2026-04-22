@@ -13,7 +13,7 @@ def get_content_wp():
 # Loop through pages until no results return.
     while True:
         response = requests.get(betterdocs, params={"page": current_pg, "per_page": 100})
-        print(f"Retrieving: {current_pg}")
+        print(f"Retrieving: {current_pg}")  # Ensure I see the page that is getting cycled.
         # Retrieve 404 error/redirect if page does not exist.
         if response.status_code != 200 or len(response.text) < 500:
             break
@@ -36,5 +36,5 @@ def get_content_wp():
         current_pg += 1  # Continue to increment through the pages.
     return data_content
 
-    
-print(get_content_wp())
+if __name__ == "__main__":   
+    print(get_content_wp())
