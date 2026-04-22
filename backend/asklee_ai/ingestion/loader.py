@@ -1,4 +1,3 @@
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, DirectoryLoader
 from bs4 import BeautifulSoup as bs
 import os
 import requests
@@ -39,20 +38,3 @@ def get_content_wp():
 
     
 print(get_content_wp())
-
-
-# import os
-# import requests
-
-# test_betterdocs = os.getenv("BETTERDOCS_REST")
-# print("Endpoint:", repr(test_betterdocs))
-
-# page = requests.get(test_betterdocs)
-# data = page.json()
-# print(type(data))
-# print(len(data))
-# for doc in data:
-#     title = doc["title"]
-#     content = doc["content"]
-
-# print(content)
