@@ -20,22 +20,22 @@ def get_content_wp():
             break
 # Collect and extract data from the JSON. If there is no data, then stop.
         data = response.json()
+        if not data:
+            break
         
         for doc in data:
             title = doc["title"]["rendered"]
             content = doc["content"]["rendered"]
-        
-            current_pg += 1  # Continue to increment through the pages.
-# Strip HTML from 'content.rendered' before returning.
-            souped_title = bs(title, 'html.parser').get_text(separator=" ")
-            souped_content = bs(content, 'html.parser').get_text(separator=" ")
+# Parse and strip HTML from 'content.rendered' before returning.
+            souped_title = bs(title, 'html.parser').get_text(separator=" ", strip=True)
+            souped_content = bs(content, 'html.parser').get_text(separator=" ", strip=True)
 # Return a list of clean dictionaries.
-            combined_soup = data_content.append({
+            data_content.append({
                 "Title" : souped_title,
                 "Content": souped_content
             })
-
-            return combined_soup
+        current_pg += 1  # Continue to increment through the pages.
+    return data_content
 
     
 print(get_content_wp())
