@@ -47,7 +47,7 @@ def qdrant_pipeline():
         collection_name=collection_doc
     )
 
-    return(q_client.get_collection(collection_doc))
+    (q_client.get_collection(collection_doc))
 
 pipeline = qdrant_pipeline()
 

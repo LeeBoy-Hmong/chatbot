@@ -17,6 +17,5 @@ def chunk_doc(data_content):
     return doc
 
 # Return the chunks (full list of Document objects). Langchain documents - .page_content & .metadata
-
 if __name__ == "__main__":
     print(chunk_doc(get_content_wp()))
