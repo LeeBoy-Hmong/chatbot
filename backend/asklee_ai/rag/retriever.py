@@ -25,13 +25,13 @@ vector_store = QdrantVectorStore.from_existing_collection(
     collection_name="GolieXeeGardens_docs",
     url=os.getenv("QDRANT_CLUSTER_EP"),
     api_key=os.getenv("QDRANT_API")
-)
+    )
 # Write a retriever function. Convert the vector store to a retriever using ".as_retriever()" method.
     # In the method, use search_type="similarity" & search_kwargs={"k":3}.
 def get_retriever():
     retriever = vector_store.as_retriever(
         search_type="similarity",
-        search_kwargs={"k":3}
+        search_kwargs={"k":5}  # retrieve the top 5 most similar data chunks.
     )
     return retriever
 
