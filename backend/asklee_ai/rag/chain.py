@@ -29,10 +29,13 @@ prompt_template = """
     Context: {context}
     User Questions: {question}
 """
-
 chat_prompt = cpt.from_template(prompt_template)
+### Was added in to fix LLM issue - need to format the LangChain Docs to string. LLM is only currently reading strings.
+def formatter(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 # Wire the chain with LCEL
-rag_chain = {"context": get_retriever(), "question": RunnablePassthrough()} | chat_prompt | chat_llm | StrOutputParser()
+rag_chain = {"context": get_retriever() | formatter, "question": RunnablePassthrough()} | chat_prompt | chat_llm | StrOutputParser()
+
 # Write a function to ask - takes a question string, invokes the chain, returns the response.
 def rag_response():
     while True:
