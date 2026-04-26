@@ -32,5 +32,16 @@ prompt_template = """
 
 chat_prompt = cpt.from_template(prompt_template)
 # Wire the chain with LCEL
-
+rag_chain = {"context": get_retriever(), "question": RunnablePassthrough()} | chat_prompt | chat_llm | StrOutputParser()
 # Write a function to ask - takes a question string, invokes the chain, returns the response.
+def rag_response():
+    while True:
+        query = input("\nYou: ")
+        if query.lower() in ["exit", "quit"]:
+            break
+
+        ai_response = rag_chain.invoke(query)
+        print(f"\nAskLee AI: {ai_response}")
+    
+if __name__ == "__main__":
+    rag_response()
