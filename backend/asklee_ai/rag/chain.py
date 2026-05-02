@@ -9,7 +9,7 @@ from langchain_core.runnables import RunnablePassthrough
 
 # Initialize Ollama with ChatOllama
 chat_llm = ChatOllama(
-    model="qwen2.5:3b",
+    model="llama3.2:3b",
     temperature=0.3,  # Increase for creativity, but we need it to be more grounded - keep parameter lower (e.g. 0.2 - 0.3)
     num_ctx=4096,  # Window size - 4096 is pretty standard.
     num_predict=512,  # Cut off point at 512 token (approxitmately 384 words)
