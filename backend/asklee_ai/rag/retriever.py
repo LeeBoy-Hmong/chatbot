@@ -31,7 +31,7 @@ vector_store = QdrantVectorStore.from_existing_collection(
 def get_retriever():
     retriever = vector_store.as_retriever(
         search_type="similarity",
-        search_kwargs={"k":5}  # retrieve the top 5 most similar data chunks.
+        search_kwargs={"k":10}  # retrieve the top 5 most similar data chunks.
     )
     return retriever
 
