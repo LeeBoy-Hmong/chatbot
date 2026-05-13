@@ -45,7 +45,7 @@ def qdrant_pipeline():
                                     limit=150)
     # Create a filter variable for new documents - return the docs, filter out any whose Title already existing in Qdrant.
     all_docs: list[Document] = lang_doc   # Applied Type Hints: avoid pylance errors
-    existent_titles: set[str] = {point.payload["Title"] for point in points} 
+    existent_titles: set[str] = {point.payload["title"] for point in points}  # Qdrant stores metadata (payload) in lowercase. So pull with lowercase.
     new_docs = [docs for docs in all_docs if docs.metadata["Title"] not in existent_titles]
     # Only chunk and upsert new docs - Pass the new documents into chunk_doc() instead of docs. If new documents are empty, skip it entirely.
     if not new_docs:
@@ -59,8 +59,6 @@ def qdrant_pipeline():
         api_key=os.getenv("QDRANT_API"),
         collection_name=collection_doc
     )
-      
-    print(q_client.get_collection(collection_doc))
 
 if __name__ == "__main__":
     print(qdrant_pipeline())
