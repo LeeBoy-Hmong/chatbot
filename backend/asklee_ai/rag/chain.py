@@ -6,7 +6,7 @@ from langchain_ollama import ChatOllama
 from langchain_core.messages import trim_messages
 from langchain_core.prompts import ChatPromptTemplate as cpt
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_postgres import PostgresChatMessageHistory
 from operator import itemgetter
@@ -33,32 +33,57 @@ chat_llm = ChatOllama(
     # An instruction to only answer from context.
 '''
 prompt_template = """
-    You are an AI chatbot name AskLee, an assistant for customers or potential customers for GolieXeeGardens flea market website.
-    1. Only introduce yourself once at the start of the conversation.
-    2. Do not reintroduce yourself on every response. 
-    3. Only use the following context to answer.
-    4. If the answer is not in the context, state "I currently do not have that information" and then divert them to the email "info@goliexeegardens.com".
-    
-    Chat History: {chat_history}
-    Context: {context}
-    User Questions: {question}
+You are AskLee, an assistant for GolieXeeGardens flea market website.
+
+Rules:
+1. Answer only the user's latest question.
+2. Use chat history only to understand references such as "they", "those", "that", or "yes".
+3. Do not repeat previous assistant answers.
+4. Do not repeat product lists unless the user asks for product lists.
+5. Use only the Context to answer.
+6. If the answer is not in the Context, say: "I currently do not have that information. Please contact info@goliexeegardens.com."
+
+Chat History:
+{chat_history}
+
+Context:
+{context}
+
+Latest User Question:
+{question}
+
+Answer:
 """
 chat_prompt = cpt.from_template(prompt_template)
 ### Was added in to fix LLM issue - need to format the LangChain Docs to string. LLM is only currently reading strings.
 def formatter(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
-message_trimmer = trim_messages(
-    max_tokens=1200,
-    token_counter=chat_llm,
-    strategy="last",
-    allow_partial=False,
-    include_system=True
-)
+token_counter = lambda messages: sum(len(m.content.split()) for m in messages)
+
+'''
+# message_trimmer = trim_messages(
+#     max_tokens=400,
+#     token_counter=token_counter,
+#     strategy="last",
+#     allow_partial=False,
+#     include_system=True
+# ) '''
+
+# Created a function to trim down the history that the conversation will hold. 
+def message_trimmer(message):
+    limit = 4
+    
+    if not message:
+        return []
+    return message[-limit:]
+
+trimmer = RunnableLambda(message_trimmer)
+
 # Wire the chain with LCEL
 rag_chain = {"context": itemgetter("question") | get_retriever() | formatter, 
 "question": itemgetter("question"),
-"chat_history": itemgetter("chat_history") | message_trimmer} | chat_prompt | chat_llm | StrOutputParser()
+"chat_history": itemgetter("chat_history") | trimmer} | chat_prompt | chat_llm | StrOutputParser()
 
 # Wrap the chain in a memory function. Use 'RunnableWithMessageHistory'.
 def retrieve_session_hist(session_identification: str):
@@ -75,6 +100,8 @@ chain_with_hist = RunnableWithMessageHistory(
     input_messages_key="question",
     history_messages_key="chat_history"
 )
+
+session_id = str(uuid.uuid4())
 # Write a function to ask - takes a question string, invokes the chain, returns the response.
 def rag_response():
     # Generate the session id prior to the loop.
@@ -88,7 +115,8 @@ def rag_response():
             {"question": query},
             config={"configurable": {"session_id": session_id}})
         
+        print(f"Session ID: {session_id}")
         print(f"\nAskLee AI: {ai_response}")
-    
+
 if __name__ == "__main__":
     (rag_response())
