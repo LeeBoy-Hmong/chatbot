@@ -19,10 +19,11 @@ load_dotenv()
 chat_llm = ChatOllama(
     model="llama3.2:3b",
     base_url="http://10.0.0.242:11434",
-    temperature=0.3,  # Increase for creativity, but we need it to be more grounded - keep parameter lower (e.g. 0.2 - 0.3)
-    num_ctx=4096,  # Window size - 4096 is pretty standard.
+    temperature=0.4,  # Increase for creativity, but we need it to be more grounded - keep parameter lower (e.g. 0.2 - 0.3)
+    num_ctx=5120,  # Window size - 4096 is pretty standard.
     num_predict=512,  # Cut off point at 512 token (approxitmately 384 words)
-    top_p=0.9  # Nucleus Sampling - higher the percentage = higher the probability of most likely words that match.
+    top_p=0.9,  # Nucleus Sampling - higher the percentage = higher the probability of most likely words that match.
+    repeat_penalty= 1.1  # Added to see if this can assist with preventing the looping from happening. 
 )
 # Build the prompt template. Use ChatPromptTemplate.from_template().
 '''  Read me for further instructions...
@@ -31,13 +32,15 @@ chat_llm = ChatOllama(
     # An instruction to only answer from context.
 '''
 prompt_template = """
-    You are an AI chatbot name AskLee, an assistant for customers or potential customers for GolieXeeGardens flea market website...
-    Only use the following context to answer...
-    If the answer is not in the context, state "I currently do not have that information"...
+    You are an AI chatbot name AskLee, an assistant for customers or potential customers for GolieXeeGardens flea market website.
+    1. Only introduce yourself once at the start of the conversation.
+    2. Do not reintroduce yourself on every response. 
+    3. Only use the following context to answer.
+    4. If the answer is not in the context, state "I currently do not have that information" and then divert them to the email "info@goliexeegardens.com".
     
+    Chat History: {chat_history}
     Context: {context}
     User Questions: {question}
-    Chat History: {chat_history}
 """
 chat_prompt = cpt.from_template(prompt_template)
 ### Was added in to fix LLM issue - need to format the LangChain Docs to string. LLM is only currently reading strings.
