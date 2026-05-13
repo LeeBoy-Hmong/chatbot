@@ -3,6 +3,7 @@ into a prompt, and passes to Ollama for generation. We will run a test on local 
 for the Jetson Nano Orin.'''
 from retriever import get_retriever
 from langchain_ollama import ChatOllama
+from langchain_core.messages import trim_messages
 from langchain_core.prompts import ChatPromptTemplate as cpt
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
@@ -46,10 +47,18 @@ chat_prompt = cpt.from_template(prompt_template)
 ### Was added in to fix LLM issue - need to format the LangChain Docs to string. LLM is only currently reading strings.
 def formatter(docs):
     return "\n\n".join(doc.page_content for doc in docs)
+
+message_trimmer = trim_messages(
+    max_tokens=1200,
+    token_counter=chat_llm,
+    strategy="last",
+    allow_partial=False,
+    include_system=True
+)
 # Wire the chain with LCEL
 rag_chain = {"context": itemgetter("question") | get_retriever() | formatter, 
 "question": itemgetter("question"),
-"chat_history": itemgetter("chat_history")} | chat_prompt | chat_llm | StrOutputParser()
+"chat_history": itemgetter("chat_history") | message_trimmer} | chat_prompt | chat_llm | StrOutputParser()
 
 # Wrap the chain in a memory function. Use 'RunnableWithMessageHistory'.
 def retrieve_session_hist(session_identification: str):
