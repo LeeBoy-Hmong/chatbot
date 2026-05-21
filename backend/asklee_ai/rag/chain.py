@@ -70,14 +70,14 @@ token_counter = lambda messages: sum(len(m.content.split()) for m in messages)
 #     include_system=True
 # ) '''
 
-# Created a function to trim down the history that the conversation will hold. 
+# Created a function to trim down the history that the conversation will hold.
 def message_trimmer(message):
     limit = 4
     
     if not message:
         return []
     return message[-limit:]
-
+# Use RunnableLambda so that we may run the custom function.
 trimmer = RunnableLambda(message_trimmer)
 
 # Wire the chain with LCEL
