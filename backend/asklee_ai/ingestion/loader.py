@@ -30,8 +30,8 @@ def get_content_wp():
             souped_content = bs(content, 'html.parser').get_text(separator=" ", strip=True)
 # Return a list of clean dictionaries.
             data_content.append({
-                "Title" : souped_title,
-                "Content": souped_content
+                "title" : souped_title,
+                "content": souped_content
             })
         current_pg += 1  # Continue to increment through the pages.
     return data_content
