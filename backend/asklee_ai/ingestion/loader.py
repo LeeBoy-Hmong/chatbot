@@ -7,12 +7,22 @@ load_dotenv()
 
 def get_content_wp():
 # Use requests to hit the BetterDocs REST endpoint. The API is paginated, look into 'per_page' and page query 'params' on WP REST.
+    username = os.getenv("BETTERDOCS_USERNAME")
+    password = os.getenv("APP_PASSWORD")
     betterdocs = os.getenv("BETTERDOCS_REST")
     data_content = []
     current_pg = 1
 # Loop through pages until no results return.
     while True:
-        response = requests.get(betterdocs, params={"page": current_pg, "per_page": 100})
+    # Set up and authentication header - Define the parameters to include the private post.
+        params = {
+            "page": current_pg,
+            "status": "private, publish",
+            "per_page": 100
+        }
+        response = requests.get(betterdocs,
+                                auth=(username, password),
+                                params=params)
         print(f"Retrieving: {current_pg}")  # Ensure I see the page that is getting cycled.
         # Retrieve 404 error/redirect if page does not exist.
         if response.status_code != 200 or len(response.text) < 500:
