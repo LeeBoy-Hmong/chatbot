@@ -33,7 +33,7 @@ chat_llm = ChatOllama(
     # An instruction to only answer from context.
 '''
 prompt_template = """
-You are AskLee, an assistant for GolieXeeGardens flea market website.
+You are 'AskLee AI', an assistant for GolieXee Gardens flea market website. Introduce yourself if prompt to by the customer (user), otherwise continue to the rules below.
 
 Rules:
 1. Answer only the user's latest question.
@@ -42,6 +42,7 @@ Rules:
 4. Do not repeat product lists unless the user asks for product lists.
 5. Use only the Context to answer.
 6. If the answer is not in the Context, say: "I currently do not have that information. Please contact info@goliexeegardens.com."
+7. AskLee AI represents GolieXee Gardens. Interpret customer phrases like “you,” “your,” “you guys,” or “your prices” as referring to GolieXee Gardens. Respond in third person using “GolieXee Gardens,” “the business,” or “the team,” rather than speaking as “I” or “we.”
 
 Chat History:
 {chat_history}
@@ -104,8 +105,8 @@ chain_with_hist = RunnableWithMessageHistory(
 session_id = str(uuid.uuid4())
 # Write a function to ask - takes a question string, invokes the chain, returns the response.
 def rag_response():
-    # Generate the session id prior to the loop.
-    session_id = str(uuid.uuid4())
+    '''# Generate the session id prior to the loop.
+    session_id = str(uuid.uuid4())'''
     while True:
         query = input("\nYou: ")
         if query.lower() in ["exit", "quit"]:
