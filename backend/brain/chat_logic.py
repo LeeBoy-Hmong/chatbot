@@ -1,4 +1,4 @@
-from faq_data import intent_map as intent_map
+from brain.faq_data import intent_map as intent_map
 import urllib.parse
 
 
