@@ -1,3 +1,4 @@
+SessionID()
 document.addEventListener("DOMContentLoaded", function () {
   const chatButton = document.getElementById("chat-button");
   const chatTeaser = document.getElementById("chat-teaser");
@@ -8,15 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const chatMessages = document.getElementById("chat-messages");
   const faqSection = document.getElementById("faq-section");
   const faqButtons = document.querySelectorAll(".faq-btn");
-  const session_id = localStorage.getItem("chat-session-id") ?? crypto.randomUUID();
-  // initialize the chat session.
-  localStorage.setItem("chat-session-id", session_id)
-  // Create a function to post every message send.
-  // const response = await fetch("/api/chat" , {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({message: userInput, session_id}),
-  // });
 
   let isSending = false;
 
@@ -61,12 +53,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const startTime = Date.now();
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/chatbot/", {
+      const sessionID = SessionID()
+      const response = await fetch("http://127.0.0.1:8000/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ message: userText })
+        body: JSON.stringify({ message: userText, session_id: sessionID})
       });
 
       if (!response.ok) {
