@@ -8,6 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const chatMessages = document.getElementById("chat-messages");
   const faqSection = document.getElementById("faq-section");
   const faqButtons = document.querySelectorAll(".faq-btn");
+  const session_id = localStorage.getItem("chat-session-id") ?? crypto.randomUUID();
+  // initialize the chat session.
+  localStorage.setItem("chat-session-id", session_id)
+  // Create a function to post every message send.
+  // const response = await fetch("/api/chat" , {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({message: userInput, session_id}),
+  // });
 
   let isSending = false;
 
