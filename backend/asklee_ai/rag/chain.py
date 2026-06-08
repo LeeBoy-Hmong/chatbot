@@ -1,7 +1,7 @@
 '''The brain of AskLee AI. Takes the users question, retrieves relevant context from our Qdrant Collection, formats it
 into a prompt, and passes to Ollama for generation. We will run a test on local computer prior to setting up the configurations
 for the Jetson Nano Orin.'''
-from retriever import get_retriever
+from asklee_ai.rag.retriever import get_retriever
 from langchain_ollama import ChatOllama
 from langchain_core.messages import trim_messages
 from langchain_core.prompts import ChatPromptTemplate as cpt
