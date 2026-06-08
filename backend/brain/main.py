@@ -8,6 +8,8 @@ app = FastAPI()
 origins = [
     "https://goliexeegardens.com",
     "https://www.goliexeegardens.com",
+    "http://localhost:5500",  # Remove after test with session storage
+    "http://127.0.0.1:5500"  # Remove after test with session storage
 ]
 
 app.add_middleware(
@@ -23,6 +25,10 @@ class DefaultResponse(BaseModel):
 
 class DefaultRequest(BaseModel):
     message: str
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: str
 
 ''' # if "where" in message or "location" in message or "located" in message or "booth" in message:
     #     return "We are located by the DragonStar in Brooklyn Park, MN - Booth 16"
@@ -67,6 +73,16 @@ async def health():
 async def chatbot(request: DefaultRequest):
     chatreply = reply(request.message)
     return DefaultResponse(response=chatreply)
+
+@app.post("/api/chat")
+async def chat_session(request: ChatRequest):
+    print("Message:", request.message)
+    print("Session ID:", request.session_id)
+
+    return {
+        "answer": f"You stated: {request.message}",
+        "session_id": request.session_id
+    }
 
 if __name__ == "__main__":
     reply()
