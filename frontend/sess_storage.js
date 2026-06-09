@@ -1,7 +1,7 @@
 // Develop a function to grab a user session, if the session is new or not found create a new session.
 function SessionID() {
     let sessionID = localStorage.getItem("chat-session-id");  // Attempt to grab the user session.
-    // create a randon user session if the session already does not exist.
+    // create a random user session if the session already does not exist with the localStorage function.
     if (!sessionID) {
         sessionID = crypto.randomUUID();
         localStorage.setItem("chat-session-id", sessionID);
