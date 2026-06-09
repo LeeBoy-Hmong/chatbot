@@ -20,11 +20,20 @@ document.addEventListener("DOMContentLoaded", function () {
     chatTeaser.classList.add("hidden");
     sessionStorage.setItem("chatTeaserDismissed", "true");
     chatWidget.classList.toggle("hidden");
+
+    if (window.innerWidth <= 768) {
+      chatButton.classList.add('hidden')
+    }
   });
 
   closeChat.addEventListener("click", (e) => {
     e.stopPropagation();
+
     chatWidget.classList.add("hidden");
+
+    if (window.innerWidth <= 768) {
+      chatButton.classList.remove("hidden")
+    }
   });
 
   sendBtn.addEventListener("click", sendMessage);
