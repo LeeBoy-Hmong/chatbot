@@ -24,7 +24,13 @@ chat_llm = ChatOllama(
     num_ctx=5120,  # Window size - 4096 is pretty standard.
     num_predict=512,  # Cut off point at 512 token (approxitmately 384 words)
     top_p=0.9,  # Nucleus Sampling - higher the percentage = higher the probability of most likely words that match.
-    repeat_penalty= 1.1  # Added to see if this can assist with preventing the looping from happening. 
+    repeat_penalty= 1.1,  # Added to see if this can assist with preventing the looping from happening.
+    client_kwargs={
+        "headers": {
+            "CF-Access-Client-Id": os.getenv("CF_CLIENT_ID"),
+            "CF-Access-Client-Secret": os.getenv("CF_CLIENT_SECRET")
+        }
+    }
 )
 # Build the prompt template. Use ChatPromptTemplate.from_template().
 '''  Read me for further instructions...
