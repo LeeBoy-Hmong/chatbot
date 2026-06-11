@@ -79,5 +79,5 @@ async def chat_session(request: ChatRequest):
     }
 
 
-if __name__ == "__main__":
-    reply()
+'''if __name__ == "__main__":
+    reply()'''
