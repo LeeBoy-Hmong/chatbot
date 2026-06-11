@@ -19,7 +19,7 @@ load_dotenv()
 # Initialize Ollama with ChatOllama
 chat_llm = ChatOllama(
     model="llama3.2:3b",
-    base_url="http://10.0.0.242:11434",
+    base_url=os.getenv("CF_CLIENT_URL"),
     temperature=0.4,  # Increase for creativity, but we need it to be more grounded - keep parameter lower (e.g. 0.2 - 0.3)
     num_ctx=5120,  # Window size - 4096 is pretty standard.
     num_predict=512,  # Cut off point at 512 token (approxitmately 384 words)
