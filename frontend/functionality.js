@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const sessionID = SessionID()
-      const response = await fetch("http://127.0.0.1:8000/api/chat", {
+      const response = await fetch("https://asklee-chatbot.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
