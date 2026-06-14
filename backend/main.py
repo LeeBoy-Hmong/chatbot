@@ -9,13 +9,14 @@ app = FastAPI()
 origins = [
     "https://goliexeegardens.com",
     "https://www.goliexeegardens.com",
-    "http://localhost:5500",  # Remove after test with session storage
-    "http://127.0.0.1:5500"  # Remove after test with session storage
+    # "http://localhost:5500",  # Used for testing only.
+    # "http://127.0.0.1:5500"  # Used for testing only.
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["*"],
+    allow_origins = [origins],
+    allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"]
 )
