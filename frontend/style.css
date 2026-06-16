@@ -82,7 +82,7 @@ body {
   right: 50px;
   width: 475px;
   height: 750px;
-  /*background: linear-gradient(to right, #9ce8ac, #d9fbd9 );*/
+  background: linear-gradient(to right, #9ce8ac, #d9fbd9 );
   background: #9ce8ac;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -107,7 +107,7 @@ body {
 
 /* Header */
 #chat-header {
-  /*background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);*/
+  background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);
   background: #7aa77c;
   color: white;
   padding: 10px;
@@ -149,7 +149,7 @@ body {
 #chat-input-area {
   display: flex;
   padding: 12px;
-  /*background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);*/
+  background: linear-gradient(to right, #7aa77c, #6ea87a, #a1b8a1);
   background: #7aa77c;
   border-top: 1px solid #eee;
 }
@@ -318,15 +318,24 @@ body {
   #chat-widget {
     width: 95vw;
     height: 80vh;
-
     bottom: 15px;
     right: 50%;
-
-    transform: translateX(50%);
     max-width: none;
-
     display: flex;
     flex-direction: column;
+    background: #9ce8ac;        /* ADD THIS */
+    opacity: 1;                 /* ADD THIS */
+  }
+
+  /* Handle centering separately so it doesn't conflict with the scale animation */
+  #chat-widget:not(.hidden) {
+    transform: translateX(50%);
+  }
+
+  #chat-widget.hidden {
+    transform: translateX(50%) scale(0.8);   /* KEEP the centering while hiding */
+    opacity: 0;
+    pointer-events: none;
   }
 
   #chat-button img {
