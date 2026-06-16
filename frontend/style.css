@@ -338,9 +338,16 @@ body {
     pointer-events: none;
   }
 
+  #chat-button {
+    right: 15px;
+    bottom: 15px;
+    width: 75px;
+    height: 75px;
+  }
+
   #chat-button img {
-    width: 85px;
-    height: 85px;
+    width: 75px;
+    height: 75px;
   }
 
   #chat-messages {
