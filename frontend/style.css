@@ -355,6 +355,10 @@ body {
     overflow-y: auto;
   }
 
+  #chat-teaser {
+    left: 45px;
+  }
+
   .bot-message,
   .user-message {
     max-width: 90%;
